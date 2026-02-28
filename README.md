@@ -8,6 +8,7 @@ This project turns messy feedback language into deterministic product signal usi
 - in-memory cosine vector search
 - PostgreSQL/Neon `pgvector` cosine search
 - lightweight clustering into weekly issue themes
+- retrieval quality checks with `Recall@K`
 - source and segment impact rollups
 
 No agents. No RAG. No generative summarization required.
@@ -129,11 +130,12 @@ dotnet run --project FeedbackTriageVectorSearch
 |   |   +-- FeedbackItem.cs
 |   +-- Services/
 |   |   +-- EmbeddedFeedbackRow.cs
-|   |   +-- IEmbeddingClient.cs
+|   |   +-- Embeddings.cs
 |   |   +-- VectorMath.cs
 |   |   +-- FeedbackVectorIndex.cs
 |   |   +-- FeedbackThemeEngine.cs
 |   |   +-- PostgresFeedbackVectorStore.cs
+|   |   +-- RetrievalMetrics.cs
 +-- LICENSE
 +-- README.md
 ```

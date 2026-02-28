@@ -60,6 +60,16 @@ var queryVec = await embeddingClient.EmbedAsync(query);
 var semanticMatches = index.Search(queryVec, config.TopK, minScore: config.MinSearchScore).ToList();
 var fromUtc = DateTimeOffset.UtcNow.AddDays(-config.WindowDays);
 
+// Example relevance labels for demo/testing Recall@K.
+var relevantIds = new HashSet<string>(StringComparer.Ordinal)
+{
+    "F-001", "F-002", "F-007", "F-012", "F-016", "F-020", "F-021", "F-024"
+};
+var rankedIds = semanticMatches.Select(x => x.Item.Id).ToList();
+var recallAt3 = RetrievalMetrics.RecallAtK(relevantIds, rankedIds, 3);
+var recallAt5 = RetrievalMetrics.RecallAtK(relevantIds, rankedIds, 5);
+var recallAt8 = RetrievalMetrics.RecallAtK(relevantIds, rankedIds, 8);
+
 Console.WriteLine();
 Console.WriteLine("Local cosine vector search (in-memory):");
 Console.WriteLine($"Semantic query: \"{query}\"");
@@ -74,6 +84,13 @@ else
         Console.WriteLine($"{hit.Score:F3} | {hit.Item.Source,-8} | {hit.Item.UserSegment,-10} | {hit.Item.Text}");
     }
 }
+
+Console.WriteLine();
+Console.WriteLine("Retrieval metrics:");
+Console.WriteLine($"Recall@3: {recallAt3:F3}");
+Console.WriteLine($"Recall@5: {recallAt5:F3}");
+Console.WriteLine($"Recall@8: {recallAt8:F3}");
+Console.WriteLine();
 
 Console.WriteLine();
 if (config.EnablePostgresVectorSearch && string.IsNullOrWhiteSpace(config.PostgresConnectionString))

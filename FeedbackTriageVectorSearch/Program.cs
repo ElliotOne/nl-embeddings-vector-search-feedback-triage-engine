@@ -92,7 +92,6 @@ Console.WriteLine($"Recall@5: {recallAt5:F3}");
 Console.WriteLine($"Recall@8: {recallAt8:F3}");
 Console.WriteLine();
 
-Console.WriteLine();
 if (config.EnablePostgresVectorSearch && string.IsNullOrWhiteSpace(config.PostgresConnectionString))
 {
     Console.WriteLine("Postgres vector search is enabled but TRIAGE_POSTGRES_CONNECTION_STRING is empty.");
